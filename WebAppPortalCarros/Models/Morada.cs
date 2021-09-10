@@ -15,17 +15,21 @@ namespace WebAppPortalCarros.Models
         #region "Atributos Morada"
         [Key]
         public int MoradaID { get; set; }
-        [ForeignKey("Cliente")]
-        public int DonoID { get; set; }
+        [ForeignKey("Dono")]
+        public int? DonoID { get; set; }
         public virtual Dono Dono { get; set; }
+        [ForeignKey("Cliente")]
+        public int? ClienteID { get; set; }
+        public virtual Cliente Cliente { get; set; }
         [StringLength(150)]
         public string Rua { get; set; }
         [StringLength(6)]
         [Display(Name = "Nº")]
         public string Numero { get; set; }
-        [StringLength(100)]
+        [ForeignKey("Distrito")]
         [Display(Name = "Distrito")]
-        public string Distrito { get; set; }
+        public int DistritoID { get; set; }
+        public virtual Distrito Distrito { get; set; }
         [Required(ErrorMessage = "Por favor entre com o Código Postal.")]
         [StringLength(9)]
         [Display(Name = "Código Postal")]

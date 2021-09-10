@@ -24,12 +24,14 @@ namespace WebAppPortalCarros.Models
         [StringLength(2)]
         [Display(Name = "Mês")]
         public string Mes { get; set; }
-        [StringLength(30)]
+        [ForeignKey("Cor")]
         [Display(Name = "Cor")]
-        public string Cor { get; set; }
-        [StringLength(20)]
-        [Display(Name = "Tipo de combustível")]
-        public string Combustível { get; set; }
+        public int CorID { get; set; }
+        public virtual Cor Cor { get; set; }
+        [ForeignKey("Combustivel")]
+        [Display(Name = "Combustivel")]
+        public int CombustivelID { get; set; }
+        public virtual Combustivel Combustivel { get; set; }
         [ForeignKey("Dono")]
         [Display(Name = "Proprietário")]
         public int DonoID { get; set; }
@@ -39,8 +41,10 @@ namespace WebAppPortalCarros.Models
         public string Marca { get; set; }
         [Display(Name = "Imagem")]
         public string Imagem { get; set; }
-        [StringLength(30)]
+        [ForeignKey("Modelo")]
         [Display(Name = "Modelo")]
-        public string Modelo { get; set; }
+        public int ModeloID { get; set; }
+        public virtual Modelo Modelo { get; set; }
+        public virtual ICollection<Valor> Valores { get; set; }
     }
 }

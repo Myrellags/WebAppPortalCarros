@@ -8,7 +8,7 @@ namespace WebAppPortalCarros.Models
     public class BaseEntity
     {
         public bool? Ativo { get; set; }
-        public bool? Delete { get; set; }
+        public bool? Deletado { get; set; }
         public DateTime? ModificadoEm { get; set; }
     }
 }

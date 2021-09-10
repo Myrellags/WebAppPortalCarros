@@ -15,9 +15,12 @@ namespace WebAppPortalCarros.Models
         #region "Atributos Email Cliente"
         [Key]
         public int EmailID { get; set; }
-        [ForeignKey("Cliente")]
-        public int DonoID { get; set; }
+        [ForeignKey("Dono")]
+        public int? DonoID { get; set; }
         public virtual Dono Dono { get; set; }
+        [ForeignKey("Cliente")]
+        public int? ClienteID { get; set; }
+        public virtual Cliente Cliente { get; set; }
         [Required(ErrorMessage = "Por favor entre com o E-mail.")]
         [StringLength(50)]
         [Display(Name = "E-mail")]

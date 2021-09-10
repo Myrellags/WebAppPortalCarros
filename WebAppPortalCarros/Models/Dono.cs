@@ -12,6 +12,7 @@ namespace WebAppPortalCarros.Models
     [Index(nameof(DonoID), IsUnique = true)]
     public class Dono : BaseEntity
     {
+        #region Atributos Dono
         [Key]
         public int DonoID { get; set; }
         [StringLength(9)]
@@ -24,5 +25,6 @@ namespace WebAppPortalCarros.Models
         public virtual ICollection<Contacto> Contactos { get; set; }
         public virtual ICollection<Email> Emails { get; set; }
         public virtual ICollection<Morada> Moradas { get; set; }
+        #endregion
     }
 }
