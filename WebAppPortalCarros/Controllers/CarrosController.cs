@@ -56,7 +56,7 @@ namespace WebAppPortalCarros.Controllers
         [HttpPost]
         public ActionResult Create(CarroViewModel model)
         {
-            var carro = new Carro();
+            
             var imageTypes = new string[]{
                     "image/gif",
                     "image/jpeg",
@@ -85,27 +85,22 @@ namespace WebAppPortalCarros.Controllers
 
             if (ModelState.IsValid)
             {
-                carro.Matricula = model.Carro.Matricula;
-                carro.Ano = model.Carro.Ano;
-                carro.Mes = model.Carro.Mes;
-                carro.DonoID = model.Carro.DonoID;
-                carro.CorID = model.Carro.CorID;
-                carro.CombustivelID = model.Carro.CombustivelID;
-                carro.Imagem = nomeCompleto;
-            }
-
-            using (var cliente = new HttpClient())
-            {
-                cliente.BaseAddress = new Uri(Baseurl);
-                var postCar = cliente.PostAsJsonAsync<Carro>("api/Carros/PostCarro", carro);
-                postCar.Wait();
-
-                var result = postCar.Result;
-                if(result.IsSuccessStatusCode)
+                var carro = model.Carro;
+                using (var cliente = new HttpClient())
                 {
-                    return RedirectToAction("Index");
+                    cliente.BaseAddress = new Uri(Baseurl);
+                    var postCar = cliente.PostAsJsonAsync<Carro>("api/Carros/PostCarro", carro);
+                    postCar.Wait();
+
+                    var result = postCar.Result;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index");
+                    }
                 }
             }
+
+            
             ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
             return View(model);
         }
