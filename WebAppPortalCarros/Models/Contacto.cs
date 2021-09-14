@@ -18,15 +18,12 @@ namespace WebAppPortalCarros.Models
         [ForeignKey("Dono")]
         public int? DonoID { get; set; }
         public virtual Dono Dono { get; set; }
-        [ForeignKey("Cliente")]
-        public int? ClienteID { get; set; }
-        public virtual Cliente Cliente { get; set; }
         [Required(ErrorMessage = "Por favor entre com o Sufixo de Contacto.")]
-        [StringLength(5)]
+        [StringLength(3)]
         [Display(Name = "Suf.")]
         public string SufixoContacto { get; set; }
         [Required(ErrorMessage = "Por favor entre com o Número de Contacto.")]
-        [StringLength(15)]
+        [StringLength(10)]
         [Display(Name = "Contacto")]
         public string NumeroContacto { get; set; }
         #endregion

@@ -16,7 +16,6 @@ namespace WebAppPortalCarros.Models
         [Key]
         public int DistritoID { get; set; }
         [Required(ErrorMessage = "Por favor entre com o Distrito")]
-        [StringLength(50)]
         [Display(Name = "Distrito")]
         public string NomeDistrito { get; set; }
         [ForeignKey("Pais")]

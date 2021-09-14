@@ -18,9 +18,6 @@ namespace WebAppPortalCarros.Models
         [ForeignKey("Dono")]
         public int? DonoID { get; set; }
         public virtual Dono Dono { get; set; }
-        [ForeignKey("Cliente")]
-        public int? ClienteID { get; set; }
-        public virtual Cliente Cliente { get; set; }
         [StringLength(150)]
         public string Rua { get; set; }
         [StringLength(6)]
@@ -34,7 +31,7 @@ namespace WebAppPortalCarros.Models
         [StringLength(9)]
         [Display(Name = "Código Postal")]
         public string CodigoPostal { get; set; }
-        [StringLength(50)]
+        [StringLength(250)]
         [Display(Name = "País")]
         public string Pais { get; set; }
         #endregion

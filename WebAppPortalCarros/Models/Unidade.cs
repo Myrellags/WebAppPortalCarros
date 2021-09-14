@@ -16,7 +16,7 @@ namespace WebAppPortalCarros.Models
         [Key]
         public int UnidadeID { get; set; }
         [Required(ErrorMessage = "Por favor entre com a Unidade de Medida")]
-        [StringLength(25)]
+        [StringLength(50)]
         [Display(Name = "Unidade de medida")]
         public string NomeUnidade { get; set; }
         #endregion

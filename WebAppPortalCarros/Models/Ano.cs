@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace WebAppPortalCarros.Models
 {
-    [Table("Categorias")]
-    [Index(nameof(CategoriaID), IsUnique = true)]
-    public class Categoria
+    [Table("Anos")]
+    [Index(nameof(AnoID), IsUnique = true)]
+    public class Ano
     {
-        #region "Atributos Categoria
+        #region "Atributos Ano"
         [Key]
-        public int CategoriaID { get; set; }
-        public string Nome { get; set; }
+        public int AnoID { get; set; }
+        public string AnoValor { get; set; }
         #endregion
     }
 }

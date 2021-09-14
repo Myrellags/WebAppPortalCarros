@@ -18,11 +18,7 @@ namespace WebAppPortalCarros.Models
         [ForeignKey("Dono")]
         [Display(Name = "Proprietário")]
         public int DonoID { get; set; }
-        public virtual Dono Dono { get; set; }
-        [ForeignKey("Cliente")]
-        [Display(Name = "Cliente")]
-        public int ClienteID { get; set; }
-        public virtual Cliente Cliente { get; set; }        
+        public virtual Dono Dono { get; set; }        
         [ForeignKey("Carro")]
         [Display(Name = "Carro")]
         public int CarroID { get; set; }

@@ -1,0 +1,373 @@
+﻿@model WebAppPortalCarros.Models.ViewModel.CarroViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="form-body container mb-3">
+    <main>
+        <div class="row g-5">
+            <div class="col-md-12 col-lg-12 ">
+                <h4 class="mb-3">Edição de Carro</h4>
+                <form asp-action="Edit" method="post" EncType="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+
+                    <div class="row g-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Matricula, htmlAttributes: new { @class = "form-label" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Matricula, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Matricula, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="invalid-feedback">
+                                Por favor informe uma matrícula.
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label asp-for="Ano" class="form-label"></label>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(m => m.Ano,
+                                new SelectList(ViewBag.Anos, "AnoID", "AnoValor"),
+                                "Choose...", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Ano, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="invalid-feedback">
+                                Por favor escolha um Ano.
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label asp-for="Mes" class="form-label"></label>
+                            <select @Html.DisplayFor(x => x.Mes) class="form-select" id="state" required>
+                                <option value="">Choose...</option>
+                                <option>01</option>
+                                <option>02</option>
+                                <option>03</option>
+                                <option>04</option>
+                                <option>05</option>
+                                <option>06</option>
+                                <option>07</option>
+                                <option>08</option>
+                                <option>09</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Por favor escolha um mês.
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="DonoID" class="form-label"></label>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(m => m.DonoID,
+                                new SelectList(ViewBag.Donos, "DonoID", "Nome"),
+                                "Choose...", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.DonoID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="invalid-feedback">
+                                Por favor escolha um Dono.
+                            </div>
+                        </div>
+
+                        <div class="col-md-5">
+                            <label asp-for="CorID" class="control-label"></label>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(m => m.CorID,
+                                new SelectList(ViewBag.Cores, "CorID", "NomeCor"),
+                                "Choose...", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.CorID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="invalid-feedback">
+                                Por favor escolha uma Cor.
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label asp-for="CombustivelID" class="control-label"></label>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(m => m.CombustivelID,
+                                new SelectList(ViewBag.Combustiveis, "CombustivelID", "NomeCombustivel"),
+                                "Choose...", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.CombustivelID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="invalid-feedback">
+                                Por favor escolha um combustível.
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-3">
+                <label asp-for="@Model.Carro.Imagem" class="form-label"></label>
+                <input asp-for="ImageUpload" type="file" class="form-control" placeholder="" required>
+                <div class="invalid-feedback">
+                    Zip code required.
+                </div>
+            </div>*@
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="form-check m-3">
+                        <input type="checkbox" class="form-check-input" id="same-address">
+                        <label class="form-check-label" for="same-address">Ativo</label>
+                    </div>
+
+                    <hr class="my-4">
+                    <div class="row gy-3 mb-3">
+                        <div class="col-md-3">
+                            <label asp-for="Marca" class="control-label"></label>
+                            @*<div class="col-md-12">
+                    @Html.DropDownListFor(m => m.Marca.MarcaID,
+                    new SelectList(ViewBag.Marcas, "MarcaID", "NomeMarca"),
+                    "Choose...", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Marca.MarcaID, "", new { @class = "text-danger" })
+                </div>*@
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="ModeloID" class="control-label"></label>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(m => m.ModeloID,
+                                new SelectList(ViewBag.Modelos, "ModeloID", "Nomemodelo"),
+                                "Choose...", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.ModeloID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+@section Scripts{
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*@model WebAppPortalCarros.Models.ViewModel.CarroViewModel
+
+    @{
+        ViewData["Title"] = "Edit";
+    }
+    <div class="form-body container mb-3">
+        <main>
+            <div class="row g-5">
+                <div class="col-md-12 col-lg-12 ">
+                    <h4 class="mb-3">Cadastro de Carro</h4>
+                    <form asp-action="Create" method="post" EncType="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row g-3">
+                            <div class="col-sm-5">
+                                <label asp-for="@Model.Carro.Matricula" class="form-label"></label>
+                                <input asp-for="Carro.Matricula" class="form-control" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <label asp-for="@Model.Carro.Ano" class="form-label"></label>
+                                <div class="col-md-12">
+                                    @Html.DropDownListFor(m => m.Ano.AnoID,
+                                    new SelectList(ViewBag.Anos, "AnoID", "AnoValor"),
+                                    "Choose...", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Ano.AnoID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label asp-for="@Model.Carro.Mes" class="form-label"></label>
+                                <select asp-for="Carro.Mes" class="form-select" id="state" required>
+                                    <option value="">Choose...</option>
+                                    <option>01</option>
+                                    <option>02</option>
+                                    <option>03</option>
+                                    <option>04</option>
+                                    <option>05</option>
+                                    <option>06</option>
+                                    <option>07</option>
+                                    <option>08</option>
+                                    <option>09</option>
+                                    <option>10</option>
+                                    <option>11</option>
+                                    <option>12</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please provide a valid state.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="@Model.Dono.Nome" class="form-label"></label>
+                                <div class="col-md-12">
+                                    @Html.DropDownListFor(m => m.Dono.DonoID,
+                                    new SelectList(ViewBag.Donos, "DonoID", "Nome"),
+                                    "Choose...", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Dono.DonoID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <label asp-for="@Model.Cor.NomeCor" class="control-label"></label>
+                                <div class="col-md-12">
+                                    @Html.DropDownListFor(m => m.Cor.CorID,
+                                    new SelectList(ViewBag.Cores, "CorID", "NomeCor"),
+                                    "Choose...", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Cor.CorID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label asp-for="@Model.Combustivel.NomeCombustivel" class="control-label"></label>
+                                <div class="col-md-12">
+                                    @Html.DropDownListFor(m => m.Combustivel.CombustivelID,
+                                    new SelectList(ViewBag.Combustiveis, "CombustivelID", "NomeCombustivel"),
+                                    "Choose...", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Combustivel.CombustivelID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label asp-for="@Model.Carro.Imagem" class="form-label"></label>
+                                <input asp-for="ImageUpload" type="file" class="form-control" placeholder="" required>
+                                <div class="invalid-feedback">
+                                    Zip code required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="form-check m-3">
+                            <input type="checkbox" class="form-check-input" id="same-address">
+                            <label class="form-check-label" for="same-address">Ativo</label>
+                        </div>
+
+                        <hr class="my-4">
+                        <div class="row gy-3 mb-3">
+                            <div class="col-md-3">
+                                <label asp-for="@Model.Marca.NomeMarca" class="control-label"></label>
+                                <div class="col-md-12">
+                                    @Html.DropDownListFor(m => m.Cor.CorID,
+                                    new SelectList(ViewBag.Marcas, "MarcaID", "NomeMarca"),
+                                    "Choose...", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Marca.MarcaID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label asp-for="@Model.Modelo.Nomemodelo" class="control-label"></label>
+                                <div class="col-md-12">
+                                    @Html.DropDownListFor(m => m.Modelo.ModeloID,
+                                    new SelectList(ViewBag.Modelos, "ModeloID", "Nomemodelo"),
+                                    "Choose...", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Modelo.ModeloID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <button class="w-100 btn btn-primary btn-lg" type="submit">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    @section Scripts{
+
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function () {
+                'use strict'
+
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.querySelectorAll('.needs-validation')
+
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (!form.checkValidity()) {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
+
+                            form.classList.add('was-validated')
+                        }, false)
+                    })
+            })()
+        </script>
+    }*@
+
+

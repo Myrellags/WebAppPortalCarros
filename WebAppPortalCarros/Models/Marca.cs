@@ -16,7 +16,6 @@ namespace WebAppPortalCarros.Models
         [Key]
         public int MarcaID { get; set; }
         [Required(ErrorMessage = "Por favor entre com o Nome da Marca")]
-        [StringLength(50)]
         [Display(Name = "Marca")]
         public string NomeMarca { get; set; }
         #endregion

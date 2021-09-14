@@ -16,7 +16,6 @@ namespace WebAppPortalCarros.Models
         [Key]
         public int ModeloID { get; set; }
         [Required(ErrorMessage = "Por favor entre com Modelo do Carro")]
-        [StringLength(50)]
         [Display(Name = "Modelo")]
         public string Nomemodelo { get; set; }
         [ForeignKey("Marca")]

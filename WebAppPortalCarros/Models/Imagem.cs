@@ -8,20 +8,22 @@ using System.Threading.Tasks;
 
 namespace WebAppPortalCarros.Models
 {
-    [Table("Emails")]
-    [Index(nameof(EmailID), IsUnique = true)]
-    public class Email : BaseEntity
+    [Table("Imagens")]
+    [Index(nameof(ImagemID), IsUnique = true)]
+    public class Imagem : BaseEntity
     {
-        #region "Atributos Email "
+        #region "Atributos Email"
         [Key]
-        public int EmailID { get; set; }
+        public int ImagemID { get; set; }
+        public byte[] Image { get; set; }
+        public byte[] Video { get; set; }
+        public byte[] Matricula { get; set; }
         [ForeignKey("Dono")]
         public int? DonoID { get; set; }
         public virtual Dono Dono { get; set; }
-        [StringLength(250)]
-        [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um email válido…")]
-        [Display(Name = "E-mail")]
-        public string EmailDono { get; set; }
+        [ForeignKey("Carro")]
+        public int? CarroID { get; set; }
+        public virtual Carro Carro { get; set; }
         #endregion
     }
 }

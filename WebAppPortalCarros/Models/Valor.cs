@@ -15,6 +15,7 @@ namespace WebAppPortalCarros.Models
         #region Atributos Valor
         [Key]
         public int ValorID { get; set; }
+        [RegularExpression(@"^[1-9]\d{0,2}(\.\d{3})*,\d{ 2}$")]
         public float PrecoID { get; set; }
         [ForeignKey("Carro")]
         [Display(Name = "Carro")]

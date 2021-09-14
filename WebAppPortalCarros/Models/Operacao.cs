@@ -15,6 +15,7 @@ namespace WebAppPortalCarros.Models
         #region Atributos Operacao
         [Key]
         public int OperacaoID { get; set; }
+        [StringLength(150)] 
         public string NomeOperacao { get; set; }
         [ForeignKey("Carro")]
         [Display(Name = "Carro")]

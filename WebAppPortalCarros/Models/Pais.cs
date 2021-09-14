@@ -16,7 +16,7 @@ namespace WebAppPortalCarros.Models
         [Key]
         public int PaisID { get; set; }
         [Required(ErrorMessage = "Por favor entre com o Pais")]
-        [StringLength(150)]
+        [StringLength(250)]
         [Display(Name = "Pais")]
         public string NomePais { get; set; }
         #endregion
