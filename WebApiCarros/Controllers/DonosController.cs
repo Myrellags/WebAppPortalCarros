@@ -80,6 +80,33 @@ namespace WebApiCarros.Controllers
             return CreatedAtAction("GetDono", new { id = dono.DonoID }, dono);
         }
 
+        [HttpPost("PostMorada")]
+        public async Task<ActionResult<Morada>> PostMorada(Morada morada)
+        {
+            _context.Moradas.Add(morada);
+            await _context.SaveChangesAsync();
+
+            return View("Index");
+        }
+
+        [HttpPost("PostEmail")]
+        public async Task<ActionResult<Email>> PostEmail(Email email)
+        {
+            _context.Emails.Add(email);
+            await _context.SaveChangesAsync();
+
+            return View("Index");
+        }
+
+        [HttpPost("PostContacto")]
+        public async Task<ActionResult<Contacto>> PostContacto(Contacto contacto)
+        {
+            _context.Contactos.Add(contacto);
+            await _context.SaveChangesAsync();
+
+            return View("Index");
+        }
+
         // DELETE: api/Donos/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDono(int id)

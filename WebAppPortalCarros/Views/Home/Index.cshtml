@@ -62,20 +62,6 @@
     </div>
 </section>
 
-@{ 
-    var nomeCor = ViewBag.Cores;
-    var qtdCor = ViewBag.Quantidade;
-
-    var qtdSerializado = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(qtdCor));
-    var coresSerializado = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(nomeCor));
-}
-
-<section>
-    <div class="container">
-        <canvas id="myChart" width="660" height="371"></canvas>
-    </div>
-</section>
-
 
 <!--Carros-->
 <section id="carros" class="p-3 bg-secondary">
@@ -130,45 +116,5 @@
     </div>
 
 </section>
-
-@section Scripts{
-    
-    <script>
-        var qtdCor = @qtdSerializado;
-        var nomeCor = @coresSerializado;
-        $(document).ready(function () {
-            var ctx = $("myChart");
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: nomeCor,
-                    datasets: [
-                        {
-                            data: qtdCor,
-                            label: "Cores mais vendidas",
-                            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"]
-                            //data: [2478, 5267, 734, 784, 433]
-                        }
-                    ]
-                },
-                options: {
-                    legend: { display: false },
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    },
-                    title: {
-                        display: true,
-                        text: 'Cores mais vendidas (mil) em 2021'
-                    }
-                }
-            });
-        })
-
-    </script>
-}
 
 

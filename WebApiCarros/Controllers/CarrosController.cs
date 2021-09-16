@@ -31,6 +31,16 @@ namespace WebApiCarros.Controllers
 
         }
 
+        [HttpGet("GetGrafico")]
+        public async Task<ActionResult<IEnumerable<Carro>>> GetGrafico()
+        {
+            var listaCarros = _context.Carros.Include(e => e.Cor).Include(e => e.Combustivel).Include(e => e.Modelo);
+            //return await _context.Carros.ToListAsync();
+            return await listaCarros.ToListAsync();
+
+        }
+
+
         [HttpGet("GetCarroId/{id}")]
         public async Task<ActionResult<Carro>> GetCarroId(int id)
         {
@@ -55,7 +65,7 @@ namespace WebApiCarros.Controllers
                 _context.Entry(carro).State = EntityState.Modified;
                 var corSelecionada = _context.Cores.Where(e => e.CorID == carro.Cor.CorID).FirstOrDefault<Cor>();
                 var donoSelecionado = _context.Donos.Where(e => e.DonoID == carro.Dono.DonoID).FirstOrDefault<Dono>();
-                //var anoSelecionado = _context.Anos.Where(e => e.AnoValor == carro.Ano).FirstOrDefault<Ano>();
+                var anoSelecionado = _context.Anos.Where(e => e.CarroID == carro.CarroID).FirstOrDefault<Ano>();
                 var combustivelSelecionado = _context.Combustiveis.Where(e => e.CombustivelID == carro.Combustivel.CombustivelID).FirstOrDefault<Combustivel>();
                 var modeloSelecionad = _context.Modelos.Where(e => e.ModeloID == carro.Modelo.ModeloID).FirstOrDefault<Modelo>();
                 var marcaSelecionada = _context.Marcas.Where(e => e.NomeMarca == carro.Modelo.Marca.NomeMarca).FirstOrDefault<Marca>();
@@ -113,6 +123,7 @@ namespace WebApiCarros.Controllers
             return CreatedAtAction("GetCarro", new { id = carro.CarroID }, carro);
         }
 
+        
         // DELETE: api/Carros/5
         [HttpDelete("DeleteCarro/{id}")]
         public async Task<IActionResult> DeleteCarro(int id)

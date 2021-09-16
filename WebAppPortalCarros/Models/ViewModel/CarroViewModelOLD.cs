@@ -11,7 +11,7 @@ namespace WebAppPortalCarros.Models.ViewModel
     {
         public Carro Carro { get; set; }
         public Ano Ano { get; set; }
-        public Dono Dono { get; set; }
+        public DonoViewModel Dono { get; set; }
         public Combustivel Combustivel { get; set; }
         public Cor Cor { get; set; }
         public Modelo Modelo { get; set; }

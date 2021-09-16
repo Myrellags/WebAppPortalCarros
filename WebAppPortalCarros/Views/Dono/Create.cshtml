@@ -1,0 +1,189 @@
+﻿@model WebAppPortalCarros.Models.ViewModel.DonoViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="form-body container mb-3">
+    <main>
+
+        <div class="row g-5">
+
+            <div class="col-md-12 col-lg-12 ">
+                <h4 class="mb-3">Cadastro Proprietário de Carro</h4>
+                <form asp-action="Create" method="post" EncType="multipart/form-data">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label asp-for="Dono.Nome" class="form-label"></label>
+                            <input asp-for="Dono.Nome" type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Valid first name is required.
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label asp-for="Dono.NIF" class="form-label"></label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text"></span>
+                                <input asp-for="Dono.NIF" type="text" class="form-control" id="username" placeholder="NIF" required>
+                                <div class="invalid-feedback">
+                                    Your username is required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Email.EmailDono" class="form-label">Email <span class="text-muted">(mais utilizado)</span></label>
+                            <input asp-for="Email.EmailDono" type="email" class="form-control" id="email" placeholder="you@example.com">
+                            <div class="invalid-feedback">
+                                Please enter a valid email address for shipping updates.
+                            </div>
+                        </div>
+
+                        <div class="col-10">
+                            <label asp-for="Morada.Rua" class="form-label"></label>
+                            <input asp-for="Morada.Rua" type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                            <div class="invalid-feedback">
+                                Please enter your shipping address.
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <label asp-for="Morada.Numero" class="form-label"></label>
+                            <input asp-for="Morada.Numero" type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                            <div class="invalid-feedback">
+                                Please enter your shipping address.
+                            </div>
+                        </div>
+
+                        <div class="col-md-5">
+                            <label asp-for="Morada.Pais" class="form-label"></label>
+                            @*<div class="col-md-12">
+                                @Html.DropDownListFor(m => m.Pais.PaisID,
+                                new SelectList(ViewBag.Paises, "PaisID", "NomePais"),
+                                "Choose...", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Pais.PaisID, "", new { @class = "text-danger" })
+                            </div>*@
+                        </div>
+
+                        <div class="col-md-4">
+                            <label asp-for="Morada.DistritoID" for="state" class="form-label">Distrito</label>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(m => m.Morada.DistritoID,
+                                new SelectList(ViewBag.Distritos, "DistritoID", "NomeDistrito"),
+                                "Choose...", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Morada.Distrito, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="Morada.CodigoPostal" class="form-label"></label>
+                            <input asp-for="Morada.CodigoPostal" type="text" class="form-control" id="zip" placeholder="" required>
+                            <div class="invalid-feedback">
+                                Zip code required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="form-check m-3">
+                        <input type="checkbox" class="form-check-input" id="same-address">
+                        <label class="form-check-label" for="same-address">Ativo</label>
+                    </div>
+
+                    <hr class="my-4">
+                    <div class="row gy-3 mb-3">
+                        <div class="col-md-3">
+                            <label asp-for="Contacto.SufixoContacto" class="form-label"></label>
+                            <input asp-for="Contacto.SufixoContacto" type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                            <div class="invalid-feedback">
+                                Informe o sufixo do contacto
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="Contacto.NumeroContacto" class="form-label"></label>
+                            <input asp-for="Contacto.NumeroContacto" type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                            <div class="invalid-feedback">
+                                Informe o número do contacto
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+
+                    @*<hr class="my-4">
+
+        <div class="row gy-3">
+            <div class="col-md-6">
+                <label for="cc-name" class="form-label">Name on card</label>
+                <input type="text" class="form-control" id="cc-name" placeholder="" required>
+                <small class="text-muted">Full name as displayed on card</small>
+                <div class="invalid-feedback">
+                    Name on card is required
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="cc-number" class="form-label">Credit card number</label>
+                <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                <div class="invalid-feedback">
+                    Credit card number is required
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <label for="cc-expiration" class="form-label">Expiration</label>
+                <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                <div class="invalid-feedback">
+                    Expiration date required
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <label for="cc-cvv" class="form-label">CVV</label>
+                <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                <div class="invalid-feedback">
+                    Security code required
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4">*@
+
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+@section Scripts{
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+}
+
+

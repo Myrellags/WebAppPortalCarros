@@ -3,11 +3,21 @@
 @{
     ViewBag.Title = "Index";
 }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <div class="container">
     <p>
         <a href="@Url.Action("Create")" class="btn btn-primary" data-action="Cadastro">
             <span class="glyphicon glyphicon-plus"></span>
             + Novo Carro
+        </a>
+    </p>
+</div>
+
+<div class="container">
+    <p>
+        <a href="@Url.Action("Grafico")" class="btn btn-primary" data-action="Grafico">
+            <span class="glyphicon glyphicon-plus"></span>
+            Gráfico
         </a>
     </p>
 </div>
@@ -26,8 +36,8 @@
                 @Html.DisplayNameFor(model => model.Cor.NomeCor)
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.Ano)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.Ano)
+                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Mes)
             </th>
@@ -44,35 +54,94 @@
         @foreach (var item in Model)
         {
 
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CarroID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Matricula)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cor.NomeCor)
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.Ano)
-        </td>*@
-        <td>
-            @Html.DisplayFor(modelItem => item.Mes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Combustivel.NomeCombustivel)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Modelo.Nomemodelo)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.CarroID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.CarroID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.CarroID })
-        </td>
-    </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarroID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Matricula)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cor.NomeCor)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Ano)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Combustivel.NomeCombustivel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Modelo.Nomemodelo)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CarroID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.CarroID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.CarroID })
+                </td>
+            </tr>
         }
     </table>
 </div>
+
+@{
+    var nomeCor = ViewBag.Cores;
+    var qtdCor = ViewBag.Quantidade;
+
+    var coresSerializado = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(nomeCor));
+    var qtdSerializado = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(qtdCor));
+
+}
+
+<section>
+    <div class="container">
+        <canvas id="myChart" width="660" height="371"></canvas>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script>
+        var qtdCor = @qtdSerializado;
+        var nomeCor = @coresSerializado;
+
+        $(document).ready(function () {
+            var ctx = $('#myChart');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: nomeCor,
+                    datasets: [
+                        {   
+                            label: "Cores mais vendidas",
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 0.2)',
+                            borderWidth: 1,
+                            data: qtdCor
+                            //data: [478, 267, 734, 233, 569]
+                        }
+                    ]
+                },
+                options: {
+                    legend: { display: false },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    title: {
+                        display: true,
+                        text: 'Cores mais vendidas (mil) em 2021'
+                    }
+                }
+            });
+        })
+
+    </script>
+}
+
 

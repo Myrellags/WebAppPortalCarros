@@ -14,9 +14,6 @@ namespace WebAppPortalCarros.Models.ViewModel
         [StringLength(8)]
         [Display(Name = "Matricula")]
         public string Matricula { get; set; }
-        [StringLength(4)]
-        [Display(Name = "Ano")]
-        public string Ano { get; set; }
         [StringLength(2)]
         [Display(Name = "Mês")]
         public string Mes { get; set; }
@@ -31,12 +28,14 @@ namespace WebAppPortalCarros.Models.ViewModel
         [ForeignKey("Dono")]
         [Display(Name = "Proprietário")]
         public int DonoID { get; set; }
-        public virtual Dono Dono { get; set; }
+        public virtual DonoViewModel Dono { get; set; }
         [Display(Name = "marca")]
         public string Marca { get; set; }
         [ForeignKey("Modelo")]
         [Display(Name = "Modelo")]
         public int ModeloID { get; set; }
         public virtual Modelo Modelo { get; set; }
+
+        public Ano Ano { get; set; }
     }
 }

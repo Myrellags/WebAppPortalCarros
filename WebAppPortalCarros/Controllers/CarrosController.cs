@@ -24,8 +24,29 @@ namespace WebAppPortalCarros.Controllers
         }
 
         string Baseurl = "https://localhost:44325/";
+
+        public ActionResult Grafico()
+        {
+            ViewBag.Cores = (from p in _context.Cores group p by p.NomeCor into g select new { g.Key }).ToList();
+            return View();
+        }
+
         public async Task<IActionResult> Index()
         {
+
+            var result = (from Cores in _context.Cores
+                          join Carros in _context.Carros on Cores.CorID equals Carros.CorID
+                          group Cores by Cores.NomeCor into count
+
+                          select new
+                          {
+                              Cores = count.Key,
+                              Sum = count.Select(i => i.CorID).Count()
+
+                          }).ToList();
+
+            ViewBag.Cores = result.Select(x => x.Cores).ToArray();
+            ViewBag.Quantidade = result.Select(x => x.Sum).ToArray();
 
             List<Carro> CarroInfo = new List<Carro>();
             using (var client = new HttpClient())
@@ -39,6 +60,8 @@ namespace WebAppPortalCarros.Controllers
                     var CarResponse = Res.Content.ReadAsStringAsync().Result;
                     CarroInfo = JsonConvert.DeserializeObject<List<Carro>>(CarResponse);
                 }
+
+
                 return View(CarroInfo);
             }
         }
@@ -54,6 +77,7 @@ namespace WebAppPortalCarros.Controllers
             var model = new CarroViewModel();
             return View(model);
         }
+
 
         [HttpPost]
         public ActionResult Create(CarroViewModel model)

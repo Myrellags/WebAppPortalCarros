@@ -13,15 +13,8 @@ namespace WebAppPortalCarros.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        public HomeController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
 
         private readonly ILogger<HomeController> _logger;
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -29,8 +22,7 @@ namespace WebAppPortalCarros.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.Cores = _context.Cores.GroupBy(c => c.NomeCor).ToList(); ;
-            ViewBag.Quantidade = _context.Carros.GroupBy(c => c.Cor.NomeCor).Count();
+            
             return View();
         }
 

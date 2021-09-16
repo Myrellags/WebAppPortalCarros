@@ -25,13 +25,13 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label asp-for="Ano" class="form-label"></label>
-                            <div class="col-md-12">
-                                @Html.DropDownListFor(m => m.Ano,
+                            <label asp-for="Ano.AnoID" class="form-label"></label>
+                            @*<div class="col-md-12">
+                                @Html.DropDownListFor(m => m.Ano.AnoID,
                                 new SelectList(ViewBag.Anos, "AnoID", "AnoValor"),
                                 "Choose...", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Ano, "", new { @class = "text-danger" })
-                            </div>
+                                @Html.ValidationMessageFor(m => m.Ano.AnoID, "", new { @class = "text-danger" })
+                            </div>*@
                             <div class="invalid-feedback">
                                 Por favor escolha um Ano.
                             </div>
