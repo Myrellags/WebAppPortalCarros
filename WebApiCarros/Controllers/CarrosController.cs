@@ -12,7 +12,7 @@ namespace WebApiCarros.Controllers
 {
     [ApiController]
     [Route("api/[controller]/")]
-    public class CarrosController : ControllerBase
+    public class CarrosController : Controller
     {
         private readonly ApplicationDbContext _context;
 
@@ -123,48 +123,39 @@ namespace WebApiCarros.Controllers
             return CreatedAtAction("GetCarro", new { id = carro.CarroID }, carro);
         }
 
-        
+        [HttpPost("PostImagem")]
+        public async Task<ActionResult<Dono>> PostImagem(Imagem imagem)
+        {
+            _context.Imagens.Add(imagem);
+            await _context.SaveChangesAsync();
+
+            return View("Index");
+        }
+
         // DELETE: api/Carros/5
         [HttpDelete("DeleteCarro/{id}")]
-        public async Task<IActionResult> DeleteCarro(int id)
+        public IActionResult DeleteCarro(int? id)
         {
-            var carro = await _context.Carros.FindAsync(id);
-            if (carro == null)
+            if (id == null)
+                return BadRequest("Dados inválidos");
+                var carroSelecionado = _context.Carros.Where(c => c.CarroID == id).FirstOrDefault<Carro>();
+            if (carroSelecionado != null)
+            {
+                _context.Entry(carroSelecionado).State = EntityState.Deleted;
+                var imagemCarro = _context.Imagens.Where(e => e.CarroID == carroSelecionado.CarroID).FirstOrDefault<Imagem>();
+                if (imagemCarro != null)
+                {
+                    _context.Entry(imagemCarro).State = EntityState.Deleted;
+                }
+                _context.SaveChanges();
+            }
+            else
             {
                 return NotFound();
             }
-
-            _context.Carros.Remove(carro);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok($"O carro {id} foi deletado com sucesso");
         }
-
-
-        //public IActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //        return BadRequest("Dados inválidos");
-
-        //    var carroSelecionado = _context.Carros.Where(c => c.CarroID == id).FirstOrDefault<Carro>();
-        //    if (carroSelecionado != null)
-        //    {
-        //        _context.Entry(carroSelecionado).State = EntityState.Deleted;
-        //        var enderecoSelecionado = ctx.Enderecos.Where(e =>
-        //                                     e.EnderecoId == contatoSelecionado.EnderecoId)
-        //                                     .FirstOrDefault<Endereco>();
-        //        if (enderecoSelecionado != null)
-        //        {
-        //            _context.Entry(enderecoSelecionado).State = EntityState.Deleted;
-        //        }
-        //        _context.SaveChanges();
-        //    }
-        //    else
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok($"Contato {id} foi deletado com sucesso");
-        //}
+        
 
         private bool CarroExists(int id)
         {

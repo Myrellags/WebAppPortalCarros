@@ -12,6 +12,8 @@ namespace WebAppPortalCarros.Models.ViewModel
         [Key]
         public int CarroID { get; set; }
         [StringLength(8)]
+        [Required(ErrorMessage = "A Matrícula do Carro é obrigatória.", AllowEmptyStrings = false)]
+        
         [Display(Name = "Matricula")]
         public string Matricula { get; set; }
         [StringLength(2)]
@@ -37,5 +39,6 @@ namespace WebAppPortalCarros.Models.ViewModel
         public virtual Modelo Modelo { get; set; }
 
         public Ano Ano { get; set; }
+        public Imagem Imagem { get; set; }
     }
 }

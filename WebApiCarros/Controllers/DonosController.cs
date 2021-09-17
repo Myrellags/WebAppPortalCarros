@@ -27,7 +27,7 @@ namespace WebApiCarros.Controllers
 
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetDonoId/{id}")]
         public async Task<ActionResult<Dono>> GetDonoId(int id)
         {
             var dono = await _context.Donos.FindAsync(id);
@@ -108,20 +108,57 @@ namespace WebApiCarros.Controllers
         }
 
         // DELETE: api/Donos/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDono(int id)
+        [HttpPost("DeleteDono/{id}")]
+        public ActionResult DeleteDono(Dono dono)
         {
-            var dono = await _context.Donos.FindAsync(id);
-            if (dono == null)
+            if (!ModelState.IsValid || dono == null)
+                return BadRequest("Dados do Dono inválidos");
+            
+            var donoSelecionado = _context.Donos.Where(c => c.DonoID == dono.DonoID).FirstOrDefault<Dono>();
+            if (donoSelecionado != null)
+            {
+                donoSelecionado.Deletado = dono.Deletado;
+                _context.Entry(donoSelecionado).State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+            else
             {
                 return NotFound();
             }
-
-            _context.Donos.Remove(dono);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok($"Contato {dono.Deletado} excluido com sucesso!");
         }
+        //[HttpDelete("DeleteDono/{id}")]
+        //public IActionResult DeleteDono(int? id)
+        //{
+        //if (id == null)
+        //    return BadRequest("Dados inválidos");
+        //var donoSelecionado = _context.Donos.Where(c => c.DonoID == id).FirstOrDefault<Dono>();
+        //if (donoSelecionado != null)
+        //{
+        //    _context.Entry(donoSelecionado).State = EntityState.Deleted;
+        //    var imagemDono = _context.Imagens.Where(e => e.DonoID == donoSelecionado.DonoID).FirstOrDefault<Imagem>();
+        //    var carroDono = _context.Carros.Where(e => e.DonoID == donoSelecionado.DonoID).FirstOrDefault<Carro>();
+        //    var imagemCarro = _context.Imagens.Where(e => e.CarroID == carroDono.CarroID).FirstOrDefault<Imagem>();
+        //    if (imagemDono != null)
+        //    {
+        //        _context.Entry(imagemDono).State = EntityState.Deleted;
+        //    }
+        //    if (carroDono != null)
+        //    {
+        //        _context.Entry(carroDono).State = EntityState.Deleted;
+        //    }
+        //    if (imagemCarro != null)
+        //    {
+        //        _context.Entry(imagemCarro).State = EntityState.Deleted;
+        //    }
+        //    _context.SaveChanges();
+        //}
+        //else
+        //{
+        //    return NotFound();
+        //}
+        //return Ok($"O dono {id} foi deletado com sucesso");
+        //}
 
         private bool DonoExists(int id)
         {

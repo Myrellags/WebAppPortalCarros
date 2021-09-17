@@ -20,18 +20,18 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <label asp-for="Ano.AnoID" class="form-label"></label>
+                            <label asp-for="Ano.AnoValor" class="form-label"></label>
                             @*<div class="col-md-12">
-                                @Html.DropDownListFor(m => m.Ano.AnoID,
+                                @Html.DropDownListFor(m => m.Ano.AnoValor,
                                 new SelectList(ViewBag.Anos, "AnoID", "AnoValor"),
                                 "Choose...", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Ano.AnoID, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(m => m.Ano.AnoValor, "", new { @class = "text-danger" })
                             </div>*@
                         </div>
 
                         <div class="col-sm-3">
                             <label asp-for="Mes" class="form-label"></label>
-                            <select @Html.DisplayFor(x=> x.Mes) class="form-select" id="state" required>
+                            <select @Html.DisplayFor(x => x.Mes) class="form-select" id="state" required>
                                 <option value="">Choose...</option>
                                 <option>01</option>
                                 <option>02</option>
@@ -81,13 +81,10 @@
                             </div>
                         </div>
 
-                        @*<div class="col-md-3">
-                            <label asp-for="@Model.Carro.Imagem" class="form-label"></label>
-                            <input asp-for="ImageUpload" type="file" class="form-control" placeholder="" required>
-                            <div class="invalid-feedback">
-                                Zip code required.
-                            </div>
-                        </div>*@
+                        <div class="col-md-3">
+                            <label asp-for="Imagem.Image" class="form-label"></label>
+                            <input asp-for="Imagem.Image" type="file" class="form-control" multiple="multiple" placeholder="">
+                        </div>
                     </div>
 
                     <hr class="my-4">

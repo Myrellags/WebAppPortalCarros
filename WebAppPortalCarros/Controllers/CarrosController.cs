@@ -82,48 +82,26 @@ namespace WebAppPortalCarros.Controllers
         [HttpPost]
         public ActionResult Create(CarroViewModel model)
         {
-
-            //var imageTypes = new string[]{
-            //        "image/gif",
-            //        "image/jpeg",
-            //        "image/pjpeg",
-            //        "image/png"
-            //    };
-            //if (model.ImageUpload == null || model.ImageUpload.Length == 0)
-            //{
-            //    ModelState.AddModelError("Imagem", "Este campo é obrigatório");
-            //}
-            //else if (!imageTypes.Contains(model.ImageUpload.ContentType))
-            //{
-            //    ModelState.AddModelError("Imagem", "Escolha uma imagem GIF, JPG ou PNG.");
-            //}
-            //string nomeArquivo = System.IO.Path.GetFileName(model.ImageUpload.FileName);
-            //string caminho = MyServer.MapPath("wwwroot/img/cadastros");
-            //string nomeCompleto = System.IO.Path.Combine(caminho, nomeArquivo);
-            //if (model.ImageUpload != null)
-            //{
-            //    //verifica se existe o diretório, caso não, cria
-            //    if (System.IO.Directory.Exists(caminho) == false)
-            //        System.IO.Directory.CreateDirectory(caminho);
-            //    //grava a imagem ou o arquivo
-            //    model.ImageUpload.CopyTo(new FileStream(nomeCompleto, FileMode.Create));
-            //}
-
-            //var carro = model.Carro;
-            //var anoCarro = from ano in _context.Anos
-            //           where ano.AnoID == model.AnoID
-            //           select ano.AnoValor;
-            //var marcaCarro = from marca in _context.Marcas
-            //               where marca.MarcaID == model.MarcaID
-            //               select marca.NomeMarca;
+            var img = new Imagem();
             var carro = new Carro();
+            foreach (var file in Request.Form.Files)
+            {
+                MemoryStream ms = new MemoryStream();
+                file.CopyTo(ms);
+                img.Image = ms.ToArray();
+
+                ms.Close();
+                ms.Dispose();
+            }
+            
             carro.Matricula = model.Matricula;
            // carro.Ano = anoCarro.FirstOrDefault();
             carro.Mes = model.Mes;
             carro.DonoID = model.DonoID;
             carro.CorID = model.CorID;
             carro.CombustivelID = model.CombustivelID;
-           // carro.Marca = marcaCarro.FirstOrDefault();
+            carro.CombustivelID = model.CombustivelID;
+            // carro.Marca = marcaCarro.FirstOrDefault();
             carro.ModeloID = model.ModeloID;
             if (ModelState.IsValid)
             {
@@ -131,8 +109,15 @@ namespace WebAppPortalCarros.Controllers
                 using (var cliente = new HttpClient())
                 {
                     cliente.BaseAddress = new Uri(Baseurl);
+
                     var postCar = cliente.PostAsJsonAsync<Carro>("api/Carros/PostCarro", carro);
                     postCar.Wait();
+
+                    var idCarro = (from id in _context.Carros select new { id.CarroID }).Max(evento => evento.CarroID);
+                    img.CarroID = idCarro;
+
+                    var postImagem = cliente.PostAsJsonAsync<Imagem>("api/Carros/PostImagem", img);
+                    postImagem.Wait();
 
                     var result = postCar.Result;
                     if (result.IsSuccessStatusCode)
@@ -145,22 +130,65 @@ namespace WebAppPortalCarros.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Details()
+        //public async Task<IActionResult> Details()
+        //{
+        //    List<Carro> CarDetails = new List<Carro>();
+        //    using (var client = new HttpClient())
+        //    {
+        //        client.BaseAddress = new Uri(Baseurl);
+        //        client.DefaultRequestHeaders.Clear();
+        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //        HttpResponseMessage Res = await client.GetAsync("api/Carro/GetCarroId");
+        //        if (Res.IsSuccessStatusCode)
+        //        {
+        //            var record = Res.Content.ReadAsStringAsync().Result;
+        //            CarDetails = JsonConvert.DeserializeObject<List<Carro>>(record);
+        //        }
+        //        return View(CarDetails);
+        //    }
+        //}
+
+        [HttpGet]
+        public ActionResult Details(int? id)
         {
-            List<Carro> CarDetails = new List<Carro>();
+            //var img = _context.Imagens.OrderByDescending(i => i.ImagemID).SingleOrDefault();
+            //var img = _context.Imagens.FirstOrDefault(m => m.CarroID == id);
+
+            var img = _context.Imagens.FirstOrDefault(m => m.CarroID == id);
+            if (img!= null)
+            {
+                string imageBase64Data = Convert.ToBase64String(img.Image);
+                string imageDataURL = string.Format("data:image/jpg;base64,{0}", imageBase64Data);
+                ViewBag.ImageDataUrl = imageDataURL;
+            }
+            
+            //Fazer isto na API e carregar aqui(FUTURO) - ORGANIZAR CÓDIGO -------------------------
+            
+
+            ViewBag.Cores = _context.Cores;
+            ViewBag.Combustiveis = _context.Combustiveis;
+            ViewBag.Donos = _context.Donos;
+            ViewBag.Marcas = _context.Marcas;
+            ViewBag.Modelos = _context.Modelos;
+            ViewBag.Anos = _context.Anos;
+            CarroViewModel carro = null;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(Baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage Res = await client.GetAsync("api/Carro/GetCarroId");
-                if (Res.IsSuccessStatusCode)
+
+                //HTTP GET
+                var responseTask = client.GetAsync($"api/Carros/GetCarroId/{id}");
+                responseTask.Wait();
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
                 {
-                    var record = Res.Content.ReadAsStringAsync().Result;
-                    CarDetails = JsonConvert.DeserializeObject<List<Carro>>(record);
+                    var readTask = result.Content.ReadAsAsync<CarroViewModel>();
+                    readTask.Wait();
+                    carro = readTask.Result;
                 }
-                return View(CarDetails);
             }
+            return View(carro);
         }
 
         [HttpGet]

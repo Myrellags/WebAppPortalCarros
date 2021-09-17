@@ -1,0 +1,98 @@
+﻿@model WebAppPortalCarros.Models.ViewModel.CarroViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="form-body container mb-3">
+    <main>
+        <div class="row g-5">
+            <div class="col-md-12 col-lg-12 ">
+                <h4 class="mb-3">Detalhes de Carro</h4>
+                
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row g-3">
+                        <div class="col-sm-5">
+                            <label asp-for="Matricula" class="form-label"></label>
+                            <input asp-for="Matricula" class="form-control" value="" disabled="disabled" >
+                            <div class="invalid-feedback">
+                                Valid first name is required.
+                            </div>
+                        </div>
+
+                        @*<div class="col-sm-4">
+                            <label asp-for="Ano.AnoID" class="form-label"></label>
+                            <div class="col-md-12">
+                                    @Html.DropDownListFor(m => m.Ano.AnoID,
+                                    new SelectList(ViewBag.Anos, "AnoID", "AnoValor"),
+                                    "Choose...", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Ano.AnoID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+
+                        <div class="col-md-3">
+                            <label asp-for="ModeloID" class="control-label"></label>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(m => m.ModeloID,
+                                new SelectList(ViewBag.Modelos, "ModeloID", "Nomemodelo"),
+                                "Choose...", new { @class = "form-control", @disabled = "disabled" })
+                                @Html.ValidationMessageFor(m => m.ModeloID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label asp-for="DonoID" class="form-label"></label>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(m => m.DonoID,
+                                new SelectList(ViewBag.Donos, "DonoID", "Nome"),
+                                "Choose...", new { @class = "form-control" , @disabled = "disabled" })
+                                @Html.ValidationMessageFor(m => m.DonoID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-5">
+                            <label asp-for="CorID" class="control-label"></label>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(m => m.CorID,
+                                new SelectList(ViewBag.Cores, "CorID", "NomeCor"),
+                                "Choose...", new { @class = "form-control", @disabled = "disabled" })
+                                @Html.ValidationMessageFor(m => m.CorID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label asp-for="CombustivelID" class="control-label"></label>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(m => m.CombustivelID,
+                                new SelectList(ViewBag.Combustiveis, "CombustivelID", "NomeCombustivel"),
+                                "Choose...", new { @class = "form-control", @disabled = "disabled" })
+                                @Html.ValidationMessageFor(m => m.CombustivelID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row g-2">
+                        <hr class="my-4">
+                        <h4 class="mb-3">Imagens do Carro</h4>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <img src="@ViewBag.ImageDataUrl" width="200" height="200" />
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <video width="320" height="240" controls autoplay>
+                                <source src="@ViewBag.ImageDataUrl" type="video/mp4">
+                            </video>
+                        </div>
+                        <hr class="my-4">
+                    </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+@section Scripts{
+
+    
+}
+
+

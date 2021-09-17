@@ -100,5 +100,60 @@ namespace WebAppPortalCarros.Controllers
             ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
             return View(model);
         }
+
+        [HttpPost]
+        public ActionResult Delete(DonoViewModel model)
+        {
+
+            Dono dono = null;
+            dono.Deletado = true;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                //HTTP PUT
+                var putTask = client.PutAsJsonAsync<Dono>("api/Donos/DeleteDono/", dono);
+                putTask.Wait();
+                var result = putTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult Details(int? id)
+        {
+            
+            var img = _context.Imagens.FirstOrDefault(m => m.DonoID == id);
+            if (img != null)
+            {
+                string imageBase64Data = Convert.ToBase64String(img.Image);
+                string imageDataURL = string.Format("data:image/jpg;base64,{0}", imageBase64Data);
+                ViewBag.ImageDataUrl = imageDataURL;
+            }
+
+            ViewBag.Distritos = _context.Distritos;
+            DonoViewModel dono = null;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+
+                //HTTP GET
+                var responseTask = client.GetAsync($"api/Donos/GetDonoId/{id}");
+                responseTask.Wait();
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<DonoViewModel>();
+                    readTask.Wait();
+                    dono = readTask.Result;
+                }
+            }
+            return View(dono);
+        }
     }
 }

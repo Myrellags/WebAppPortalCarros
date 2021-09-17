@@ -10,17 +10,12 @@
                 <h4 class="mb-3">Edição de Carro</h4>
                 <form asp-action="Edit" method="post" EncType="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    
-
                     <div class="row g-3">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Matricula, htmlAttributes: new { @class = "form-label" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.Matricula, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Matricula, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="invalid-feedback">
-                                Por favor informe uma matrícula.
                             </div>
                         </div>
 
@@ -39,7 +34,7 @@
 
                         <div class="col-sm-3">
                             <label asp-for="Mes" class="form-label"></label>
-                            <select @Html.DisplayFor(x => x.Mes) class="form-select" id="state" required>
+                            <select @Html.DisplayFor(x => x.Mes) class="form-select" id="state" >
                                 <option value="">Choose...</option>
                                 <option>01</option>
                                 <option>02</option>
@@ -65,7 +60,7 @@
                                 @Html.DropDownListFor(m => m.DonoID,
                                 new SelectList(ViewBag.Donos, "DonoID", "Nome"),
                                 "Choose...", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.DonoID, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(m => m.DonoID, "", new { @class = "text-danger" } )
                             </div>
                             <div class="invalid-feedback">
                                 Por favor escolha um Dono.

@@ -19,6 +19,7 @@ namespace WebAppPortalCarros.Models
         public int? DonoID { get; set; }
         public virtual Dono Dono { get; set; }
         [StringLength(250)]
+        
         [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um email válido…")]
         [Display(Name = "E-mail")]
         public string EmailDono { get; set; }
