@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApiCarros.Data;
 using WebAppPortalCarros.Models;
+using WebAppPortalCarros.Models.ViewModel;
 
 namespace WebApiCarros.Controllers
 {
@@ -30,13 +31,16 @@ namespace WebApiCarros.Controllers
         [HttpGet("GetDonoId/{id}")]
         public async Task<ActionResult<Dono>> GetDonoId(int id)
         {
+            var email = _context.Emails.FirstOrDefault(m => m.DonoID == id);
+            var contacto = _context.Contactos.FirstOrDefault(m => m.DonoID == id);
+            var morada = _context.Moradas.FirstOrDefault(m => m.DonoID == id);
             var dono = await _context.Donos.FindAsync(id);
-
+            DonoViewModel donoViewModel = null;
             if (dono == null)
             {
                 return NotFound();
             }
-
+            donoViewModel = dono;
             return dono;
         }
 

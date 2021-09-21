@@ -194,10 +194,6 @@ namespace WebAppPortalCarros.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
             ViewBag.Cores = _context.Cores;
             ViewBag.Combustiveis = _context.Combustiveis;
             ViewBag.Donos = _context.Donos;

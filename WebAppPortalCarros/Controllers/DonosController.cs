@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web.WebPages.Html;
 using WebAppPortalCarros.Data;
 using WebAppPortalCarros.Models;
 using WebAppPortalCarros.Models.ViewModel;
@@ -25,7 +26,12 @@ namespace WebAppPortalCarros.Controllers
         public IActionResult Create()
         {
             ViewBag.Paises = _context.Paises;
-            ViewBag.Distritos = _context.Distritos;
+            List<SelectListItem> item = new List<SelectListItem>();
+            foreach (var labels in _context.Distritos)
+            {
+                item.Add(new SelectListItem { Text = labels.NomeDistrito, Value = labels.DistritoID.ToString() });
+            }
+            ViewBag.Distritos = item;
             var model = new DonoViewModel();
             return View(model);
         }
@@ -151,6 +157,58 @@ namespace WebAppPortalCarros.Controllers
                     var readTask = result.Content.ReadAsAsync<DonoViewModel>();
                     readTask.Wait();
                     dono = readTask.Result;
+                }
+            }
+            return View(dono);
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int? id)
+        {
+            List<SelectListItem> item = new List<SelectListItem>();
+            //var distritos = _context.Distritos.Where(m => m.DistritoID == id).ToList();
+            //foreach (var labels in _context.Distritos)
+            //{
+            //    item.Add(new SelectListItem { Text = labels.NomeDistrito, Value = labels.DistritoID.ToString() });
+            //}
+            ViewBag.Distritos = _context.Distritos;
+            DonoViewModel dono = null;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                //HTTP GET
+                var responseTask = client.GetAsync($"api/Donos/GetDonoId/{id}");
+                responseTask.Wait();
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<DonoViewModel>();
+                    readTask.Wait();
+                    dono = readTask.Result;
+                }
+            }
+            return View(dono);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(DonoViewModel dono)
+        {
+            //if (dono == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                //HTTP PUT
+                var putTask = client.PutAsJsonAsync<DonoViewModel>("contatos", dono);
+                putTask.Wait();
+                var result = putTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
                 }
             }
             return View(dono);

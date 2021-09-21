@@ -3,84 +3,98 @@
 @{
     ViewData["Title"] = "Create";
 }
-<div class="form-body container mb-3">
-    <main>
+@using (Html.BeginForm("Create", "Dono", FormMethod.Post, new { enctype = "multipart/form-data"}))
+{
+    <div class="form-body container mb-3">
+        <main>
 
-        <div class="row g-5">
+            <div class="row g-5">
 
-            <div class="col-md-12 col-lg-12 ">
-                <h4 class="mb-3">Cadastro Proprietário de Carro</h4>
-                <form asp-action="Create" method="post" EncType="multipart/form-data">
+                <div class="col-md-12 col-lg-12 ">
+                    <h4 class="mb-3">Cadastro Proprietário de Carro</h4>
+                    @*<form asp-action="Create" method="post" name="myDono" EncType="multipart/form-data" onsubmit=" return validadeForm()">*@
                     <div class="row g-3">
                         <div class="col-sm-6">
-                            <label asp-for="Dono.Nome" class="form-label"></label>
-                            <input asp-for="Dono.Nome" type="text" class="form-control" id="firstName" placeholder="" value="" required>
-                            <div class="invalid-feedback">
-                                Valid first name is required.
-                            </div>
+                            @Html.LabelFor(m => m.Dono.Nome, new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Dono.Nome, new { @class = "form-control", required = "required", pattern = @"^[A-ZÀ-Ÿ][A-zÀ-ÿ']+\s([A-zÀ-ÿ']\s?)*[A-ZÀ-Ÿ][A-zÀ-ÿ']+$" })
+                            @Html.ValidationMessageFor(m => m.Dono.Nome, "", new { @class = "text-danger" })
+                            @*<label asp-for="Dono.Nome" class="form-label"></label>
+                                <input asp-for="Dono.Nome" type="text" class="form-control" id="nome" placeholder="" value="">
+                                <span id="lblNome" style="color:red"></span>*@
                         </div>
 
                         <div class="col-sm-6">
-                            <label asp-for="Dono.NIF" class="form-label"></label>
+                            @Html.LabelFor(m => m.Dono.NIF, new { @class = "form-label" })
+                            @*<label asp-for="Dono.NIF" class="form-label"></label>*@
                             <div class="input-group has-validation">
-                                <span class="input-group-text"></span>
-                                <input asp-for="Dono.NIF" type="text" class="form-control" id="username" placeholder="NIF" required>
-                                <div class="invalid-feedback">
-                                    Your username is required.
-                                </div>
+                                @Html.TextBoxFor(m => m.Dono.NIF, new { @class = "form-control", required = "required", pattern = @"\d{9}" })
+                                @Html.ValidationMessageFor(m => m.Dono.NIF, "", new { @class = "text-danger" })
+                                @*<span class="input-group-text"></span>
+                                    <input asp-for="Dono.NIF" type="text" class="form-control" id="nif" placeholder="NIF">
+                                    <span id="lblNif" style="color:red"></span>*@
                             </div>
                         </div>
 
                         <div class="col-12">
-                            <label asp-for="Email.EmailDono" class="form-label">Email <span class="text-muted">(mais utilizado)</span></label>
-                            <input asp-for="Email.EmailDono" type="email" class="form-control" id="email" placeholder="you@example.com">
-                            <div class="invalid-feedback">
-                                Please enter a valid email address for shipping updates.
-                            </div>
+                            @Html.LabelFor(m => m.Email.EmailDono, new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Email.EmailDono, new { @class = "form-control", required = "required", pattern = @"^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$" })
+                            @Html.ValidationMessageFor(m => m.Email.EmailDono, "", new { @class = "text-danger" })
+                            @*<label asp-for="Email.EmailDono" class="form-label"></label>
+                                <input asp-for="Email.EmailDono" type="email" class="form-control" id="txtEmail" placeholder="you@example.com">
+                                <span id="lblEmail" style="color:red"></span>*@
                         </div>
 
                         <div class="col-10">
-                            <label asp-for="Morada.Rua" class="form-label"></label>
-                            <input asp-for="Morada.Rua" type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-                            <div class="invalid-feedback">
-                                Please enter your shipping address.
-                            </div>
+                            @Html.LabelFor(m => m.Morada.Rua, new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Morada.Rua, new { @class = "form-control", required = "required", pattern = @"^[A-ZÀ-Ÿ][A-zÀ-ÿ']+\s([A-zÀ-ÿ']\s?)*[A-ZÀ-Ÿ][A-zÀ-ÿ']+$" })
+                            @Html.ValidationMessageFor(m => m.Morada.Rua, "", new { @class = "text-danger" })
+                            @*<label asp-for="Morada.Rua" class="form-label"></label>
+                                <input asp-for="Morada.Rua" type="text" class="form-control" id="address" placeholder="1234 Main St" required>*@
                         </div>
 
                         <div class="col-2">
-                            <label asp-for="Morada.Numero" class="form-label"></label>
-                            <input asp-for="Morada.Numero" type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-                            <div class="invalid-feedback">
-                                Please enter your shipping address.
-                            </div>
+                            @Html.LabelFor(m => m.Morada.Numero, new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Morada.Numero, new { @class = "form-control", required = "required", pattern = @"[0-9]*" })
+                            @Html.ValidationMessageFor(m => m.Morada.Numero, "", new { @class = "text-danger" })
+                            @*<label asp-for="Morada.Numero" class="form-label"></label>
+                                <input asp-for="Morada.Numero" type="text" class="form-control" id="numero" placeholder="1234 Main St" >
+                                <span id="lblNumero" style="color:red"></span>*@
                         </div>
 
                         <div class="col-md-5">
                             <label asp-for="Morada.Pais" class="form-label"></label>
                             @*<div class="col-md-12">
-                                @Html.DropDownListFor(m => m.Pais.PaisID,
-                                new SelectList(ViewBag.Paises, "PaisID", "NomePais"),
-                                "Choose...", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Pais.PaisID, "", new { @class = "text-danger" })
-                            </div>*@
+                                    @Html.DropDownListFor(m => m.Pais.PaisID,
+                                    new SelectList(ViewBag.Paises, "PaisID", "NomePais"),
+                                    "Choose...", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Pais.PaisID, "", new { @class = "text-danger" })
+                                </div>*@
                         </div>
 
                         <div class="col-md-4">
-                            <label asp-for="Morada.DistritoID" for="state" class="form-label">Distrito</label>
-                            <div class="col-md-12">
-                                @Html.DropDownListFor(m => m.Morada.DistritoID,
-                                new SelectList(ViewBag.Distritos, "DistritoID", "NomeDistrito"),
-                                "Choose...", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Morada.Distrito, "", new { @class = "text-danger" })
+                            <div class="col-md-12 dropdown my-2">
+                                @Html.LabelFor(model => model.Morada.DistritoID, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @{
+                                        <select name="FuelId" id="FuelId" class="form-select">
+                                            @foreach (var i in ViewBag.Distritos)
+                                            {
+                                                <option value=@i.Value>@i.Text</option>
+                                            }
+                                        </select>
+                                    }
+                                    @Html.ValidationMessageFor(model => model.Morada.DistritoID, "", new { @class = "text-danger" })
+                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-3">
-                            <label asp-for="Morada.CodigoPostal" class="form-label"></label>
-                            <input asp-for="Morada.CodigoPostal" type="text" class="form-control" id="zip" placeholder="" required>
-                            <div class="invalid-feedback">
-                                Zip code required.
-                            </div>
+                            @Html.LabelFor(m => m.Morada.CodigoPostal, new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Morada.CodigoPostal, new { @class = "form-control", required = "required", pattern = @"\d{4}-\d{3}" })
+                            @Html.ValidationMessageFor(m => m.Morada.CodigoPostal, "", new { @class = "text-danger" })
+                            @*<label asp-for="Morada.CodigoPostal" class="form-label"></label>
+                                <input asp-for="Morada.CodigoPostal" type="text" class="form-control" id="codigoPostal" placeholder="">
+                                <span id="lblCodigoPostal" style="color:red"></span>*@
                         </div>
                     </div>
 
@@ -94,96 +108,77 @@
                     <hr class="my-4">
                     <div class="row gy-3 mb-3">
                         <div class="col-md-3">
-                            <label asp-for="Contacto.SufixoContacto" class="form-label"></label>
-                            <input asp-for="Contacto.SufixoContacto" type="text" class="form-control" id="cc-expiration" placeholder="" required>
-                            <div class="invalid-feedback">
-                                Informe o sufixo do contacto
-                            </div>
+                            @Html.LabelFor(m => m.Contacto.SufixoContacto, new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Contacto.SufixoContacto, new { @class = "form-control", required = "required", pattern = @"\d{3}" })
+                            @Html.ValidationMessageFor(m => m.Contacto.SufixoContacto, "", new { @class = "text-danger" })
+                            @*<label asp-for="Contacto.SufixoContacto" class="form-label"></label>
+                                <input asp-for="Contacto.SufixoContacto" type="text" class="form-control" id="sufixo" placeholder="" required>
+                                <span id="lblSufixo" style="color:red"></span>*@
                         </div>
 
                         <div class="col-md-3">
-                            <label asp-for="Contacto.NumeroContacto" class="form-label"></label>
-                            <input asp-for="Contacto.NumeroContacto" type="text" class="form-control" id="cc-cvv" placeholder="" required>
-                            <div class="invalid-feedback">
-                                Informe o número do contacto
-                            </div>
+                            @Html.LabelFor(m => m.Contacto.NumeroContacto, new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Contacto.NumeroContacto, new { @class = "form-control", required = "required", pattern = @"\d{9}" })
+                            @Html.ValidationMessageFor(m => m.Contacto.NumeroContacto, "", new { @class = "text-danger" })
+                            @*<label asp-for="Contacto.NumeroContacto" class="form-label"></label>
+                                <input asp-for="Contacto.NumeroContacto" type="text" class="form-control" id="contacto" placeholder="" required>
+                                <span id="lblContacto" style="color:red"></span>*@
                         </div>
                     </div>
 
                     <hr class="my-4">
 
-
-                    @*<hr class="my-4">
-
-        <div class="row gy-3">
-            <div class="col-md-6">
-                <label for="cc-name" class="form-label">Name on card</label>
-                <input type="text" class="form-control" id="cc-name" placeholder="" required>
-                <small class="text-muted">Full name as displayed on card</small>
-                <div class="invalid-feedback">
-                    Name on card is required
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <label for="cc-number" class="form-label">Credit card number</label>
-                <input type="text" class="form-control" id="cc-number" placeholder="" required>
-                <div class="invalid-feedback">
-                    Credit card number is required
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <label for="cc-expiration" class="form-label">Expiration</label>
-                <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
-                <div class="invalid-feedback">
-                    Expiration date required
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <label for="cc-cvv" class="form-label">CVV</label>
-                <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
-                <div class="invalid-feedback">
-                    Security code required
-                </div>
-            </div>
-        </div>
-
-        <hr class="my-4">*@
-
                     <button class="w-100 btn btn-primary btn-lg" type="submit">Salvar</button>
-                </form>
+                    @*</form>*@
+                </div>
             </div>
-        </div>
-    </main>
-</div>
-
-
-@section Scripts{
-
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
-            'use strict'
-
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.querySelectorAll('.needs-validation')
-
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
-    </script>
+        </main>
+    </div>
 }
+
+    @section Scripts{
+
+        <script type="text/javascript">
+            function validadeForm() {
+                var email = document.forms["myDono"]["txtEmail"].value;
+                var exprEmail = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+                var nif = document.forms["myDono"]["nif"].value;
+                var nifExp = /\d{9}/
+                var nome = document.forms["myDono"]["nome"].value;
+                var nomeExp = /^[A-ZÀ-Ÿ][A-zÀ-ÿ']+\s([A-zÀ-ÿ']\s?)*[A-ZÀ-Ÿ][A-zÀ-ÿ']+$/;
+                var numero = document.forms["myDono"]["numero"].value;
+                var numeroExp = /[0-9]*/;
+                var zip = document.forms["myDono"]["codigoPostal"].value;
+                var zipExp = /\d{4}-\d{3}/;
+                var sufixo = document.forms["myDono"]["sufixo"].value;
+                var sufixoExp = /+d{3}/;
+                var contacto = document.forms["myDono"]["contacto"].value;
+                var contactoExp = /\+\d{3}/;
+                if (!exprEmail.test(email)) {
+                    lblEmail.innerHTML = "Endereço de e-mail inválido";
+                }
+                if (!nifExp.test(nif)) {
+                    lblNif.innerHTML = "O NIF deve obedecer ao padrão: 000000000";
+                }
+                if (!nomeExp.test(nome)) {
+                    lblNome.innerHTML = "Nome fora do padrão";
+                }
+                if (!numeroExp.test(numero)) {
+                    lblNumero.innerHTML = "Somente números";
+                }
+                if (!zipExp.test(zip)) {
+                    lblCodigoPostal.innerHTML = "O código postal deve obedecer ao padrão: 0000-000";
+                }
+                if (!sufixoExp.test(sufixo)) {
+                    lblCodigoPostal.innerHTML = "O sufixo deve obedecer ao padrão: +000";
+                }
+                if (!contactoExp.test(contacto)) {
+                    lblContacto.innerHTML = "O contacto deve obedecer ao padrão: 00000000";
+                }
+            }
+
+
+        </script>
+    }
 
 

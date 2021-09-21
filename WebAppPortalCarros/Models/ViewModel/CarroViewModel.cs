@@ -11,10 +11,10 @@ namespace WebAppPortalCarros.Models.ViewModel
     {
         [Key]
         public int CarroID { get; set; }
-        [StringLength(8)]
+        //[StringLength(8)]
+        [Display(Name = "Matricula:")]
         [Required(ErrorMessage = "A Matrícula do Carro é obrigatória.", AllowEmptyStrings = false)]
-        
-        [Display(Name = "Matricula")]
+       // [RegularExpression(@"\w\w-\d{2}-\d{2}", ErrorMessage = "A Matrícula deve obedecer ao padrão: 00-00-00.")]
         public string Matricula { get; set; }
         [StringLength(2)]
         [Display(Name = "Mês")]

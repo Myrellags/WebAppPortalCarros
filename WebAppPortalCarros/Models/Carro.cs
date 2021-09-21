@@ -17,6 +17,8 @@ namespace WebAppPortalCarros.Models
         public int CarroID { get; set; }
         [StringLength(8)]
         [Display(Name = "Matricula")]
+        [Required(ErrorMessage = "A Matrícula do Carro é obrigatória.", AllowEmptyStrings = false)]
+        
         public string Matricula { get; set; }
         [StringLength(2)]
         [Display(Name = "Mês")]
@@ -31,6 +33,7 @@ namespace WebAppPortalCarros.Models
         public virtual Combustivel Combustivel { get; set; }
         [ForeignKey("Dono")]
         [Display(Name = "Proprietário")]
+        [Required(ErrorMessage = "Por favor escolha um dono.")]
         public int DonoID { get; set; }
         public virtual Dono Dono { get; set; }
         [Display(Name = "marca")]
