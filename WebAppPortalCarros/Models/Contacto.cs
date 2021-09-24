@@ -17,7 +17,7 @@ namespace WebAppPortalCarros.Models
         public int ContactoID { get; set; }
         [ForeignKey("Dono")]
         public int? DonoID { get; set; }
-        public virtual Dono Dono { get; set; }
+        //public virtual Dono Dono { get; set; }
         [Required(ErrorMessage = "Por favor entre com o Sufixo de Contacto.")]
         [StringLength(3)]
         [Display(Name = "Suf.")]

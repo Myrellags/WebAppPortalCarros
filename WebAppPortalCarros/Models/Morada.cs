@@ -17,7 +17,7 @@ namespace WebAppPortalCarros.Models
         public int MoradaID { get; set; }
         [ForeignKey("Dono")]
         public int? DonoID { get; set; }
-        public virtual Dono Dono { get; set; }
+        //public virtual Dono Dono { get; set; }
         [StringLength(150)]
         public string Rua { get; set; }
         [StringLength(6)]

@@ -17,7 +17,7 @@ namespace WebAppPortalCarros.Models
         public int EmailID { get; set; }
         [ForeignKey("Dono")]
         public int? DonoID { get; set; }
-        public virtual Dono Dono { get; set; }
+        //public virtual Dono Dono { get; set; }
         [StringLength(250)]
         
         [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um email válido…")]

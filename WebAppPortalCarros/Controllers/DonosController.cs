@@ -166,13 +166,12 @@ namespace WebAppPortalCarros.Controllers
         public ActionResult Edit(int? id)
         {
             List<SelectListItem> item = new List<SelectListItem>();
-            //var distritos = _context.Distritos.Where(m => m.DistritoID == id).ToList();
-            //foreach (var labels in _context.Distritos)
-            //{
-            //    item.Add(new SelectListItem { Text = labels.NomeDistrito, Value = labels.DistritoID.ToString() });
-            //}
-            ViewBag.Distritos = _context.Distritos;
-            DonoViewModel dono = null;
+            foreach (var labels in _context.Distritos)
+            {
+                item.Add(new SelectListItem { Text = labels.NomeDistrito, Value = labels.DistritoID.ToString() });
+            }
+            ViewBag.Distritos = item;
+            DonoViewModel donoViewModel = null;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(Baseurl);
@@ -185,33 +184,40 @@ namespace WebAppPortalCarros.Controllers
                 {
                     var readTask = result.Content.ReadAsAsync<DonoViewModel>();
                     readTask.Wait();
-                    dono = readTask.Result;
+                    donoViewModel = readTask.Result;
                 }
             }
-            return View(dono);
+            return View(donoViewModel);
         }
 
         [HttpPost]
-        public ActionResult Edit(DonoViewModel dono)
+        public ActionResult Edit(DonoViewModel model)
         {
-            //if (dono == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            using (var client = new HttpClient())
+            var email = model.Email;
+            var morada = model.Morada;
+            var contacto = model.Contacto;
+
+            using (var cliente = new HttpClient())
             {
-                client.BaseAddress = new Uri(Baseurl);
+                cliente.BaseAddress = new Uri(Baseurl);
                 //HTTP PUT
-                var putTask = client.PutAsJsonAsync<DonoViewModel>("contatos", dono);
-                putTask.Wait();
-                var result = putTask.Result;
+                var putDono = cliente.PutAsJsonAsync<DonoViewModel>("api/Donos/PutDono", model);
+                putDono.Wait();
+                var putMorada = cliente.PostAsJsonAsync<Morada>("api/Donos/PutMorada", morada);
+                putMorada.Wait();
+                var putEmail = cliente.PostAsJsonAsync<Email>("api/Donos/PutEmail", email);
+                putEmail.Wait();
+                var putContacto = cliente.PostAsJsonAsync<Contacto>("api/Donos/PutContacto", contacto);
+                putContacto.Wait();
+
+                var result = putDono.Result;
 
                 if (result.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
                 }
             }
-            return View(dono);
+            return RedirectToAction("Index");
         }
     }
 }

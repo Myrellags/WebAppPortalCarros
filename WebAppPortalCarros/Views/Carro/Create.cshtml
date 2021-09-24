@@ -12,79 +12,86 @@
                 <h4 class="mb-3">Cadastro de Carro</h4>
                 @*<form asp-action="Create" name="myCarro" method="post" EncType="multipart/form-data" onsubmit=" return validadeForm()">*@
                     @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
-                    <div class="row g-3">
-                        <div class="col-sm-5">
-                            @Html.LabelFor(m => m.Matricula, new { @class = "form-label" })
-                            @Html.TextBoxFor(m => m.Matricula, new { @class = "form-control", required = "required", pattern = @"\w\w-\d{2}-\d{2}" })
-                            @Html.ValidationMessageFor(m => m.Matricula, "", new { @class = "text-danger" })
-                        </div>
+            <div class="row g-3">
+                <div class="col-sm-5">
+                    @Html.LabelFor(m => m.Matricula, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.Matricula, new { @class = "form-control", required = "required", pattern = @"\w\w-\d{2}-\d{2}" })
+                    @Html.ValidationMessageFor(m => m.Matricula, "", new { @class = "text-danger" })
+                </div>
 
-                        <div class="col-sm-4">
-                            <label asp-for="Ano.AnoValor" class="form-label"></label>
-                            @*<div class="col-md-12">
-                                    @Html.DropDownListFor(m => m.Ano.AnoValor,
-                                    new SelectList(ViewBag.Anos, "AnoID", "AnoValor"),
-                                    "Choose...", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.Ano.AnoValor, "", new { @class = "text-danger" })
-                                </div>*@
-                        </div>
+                <div class="col-sm-4">
+                    <label asp-for="Ano.AnoValor" class="form-label"></label>
+                    @*<div class="col-md-12">
+                @Html.DropDownListFor(m => m.Ano.AnoValor,
+                new SelectList(ViewBag.Anos, "AnoID", "AnoValor"),
+                "Choose...", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Ano.AnoValor, "", new { @class = "text-danger" })
+            </div>*@
+                </div>
 
-                        <div class="col-sm-3">
-                            <label asp-for="Mes" class="form-label"></label>
-                            <select @Html.DisplayFor(x => x.Mes) class="form-select" id="state" required>
-                                <option value="">Choose...</option>
-                                <option>01</option>
-                                <option>02</option>
-                                <option>03</option>
-                                <option>04</option>
-                                <option>05</option>
-                                <option>06</option>
-                                <option>07</option>
-                                <option>08</option>
-                                <option>09</option>
-                                <option>10</option>
-                                <option>11</option>
-                                <option>12</option>
-                            </select>
-                        </div>
+                <div class="col-sm-3">
+                    <label asp-for="Mes" class="form-label"></label>
+                    <select @Html.DisplayFor(x => x.Mes) class="form-select" id="state" required>
+                        <option value="">Choose...</option>
+                        <option>01</option>
+                        <option>02</option>
+                        <option>03</option>
+                        <option>04</option>
+                        <option>05</option>
+                        <option>06</option>
+                        <option>07</option>
+                        <option>08</option>
+                        <option>09</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                    </select>
+                </div>
 
-                        <div class="col-12">
-                            <label asp-for="DonoID" class="form-label"></label>
-                            <div class="col-md-12">
-                                @Html.DropDownListFor(m => m.DonoID,
-                                new SelectList(ViewBag.Donos, "DonoID", "Nome"),
-                                "Choose...", new { @class = "form-control", required = "required" })
-                                @Html.ValidationMessageFor(m => m.DonoID, "", new { @class = "text-danger" })
-                                <span id="lblmsg" style="color:red"></span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-5">
-                            <label asp-for="CorID" class="control-label"></label>
-                            <div class="col-md-12">
-                                @Html.DropDownListFor(m => m.CorID,
-                                new SelectList(ViewBag.Cores, "CorID", "NomeCor"),
-                                "Choose...", new { @class = "form-control", required = "required" })
-                                @Html.ValidationMessageFor(m => m.CorID, "", new { @class = "text-danger" })
-                                
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <label asp-for="CombustivelID" class="control-label"></label>
-                            <div class="col-md-12">
-                                @Html.DropDownListFor(m => m.CombustivelID,
-                                new SelectList(ViewBag.Combustiveis, "CombustivelID", "NomeCombustivel"),
-                                "Choose...", new { @class = "form-control", required = "required" })
-                                @Html.ValidationMessageFor(m => m.CombustivelID, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label asp-for="Imagem.Image" class="form-label"></label>
-                            <input asp-for="Imagem.Image" type="file" class="form-control" multiple="multiple" placeholder="" required>
-                        </div>
+                <div class="col-12">
+                    <label asp-for="DonoID" class="form-label"></label>
+                    <div class="col-md-12">
+                        @Html.DropDownListFor(m => m.DonoID,
+                        new SelectList(ViewBag.Donos, "DonoID", "Nome"),
+                        "Choose...", new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(m => m.DonoID, "", new { @class = "text-danger" })
+                        <span id="lblmsg" style="color:red"></span>
                     </div>
+                </div>
+
+                <div class="col-md-5">
+                    <label asp-for="CorID" class="control-label"></label>
+                    <div class="col-md-12">
+                        @Html.DropDownListFor(m => m.CorID,
+                        new SelectList(ViewBag.Cores, "CorID", "NomeCor"),
+                        "Choose...", new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(m => m.CorID, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="CombustivelID" class="control-label"></label>
+                    <div class="col-md-12">
+                        @Html.DropDownListFor(m => m.CombustivelID,
+                        new SelectList(ViewBag.Combustiveis, "CombustivelID", "NomeCombustivel"),
+                        "Choose...", new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(m => m.CombustivelID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <label asp-for="Imagem.Image" class="form-label"></label>
+                    <input asp-for="Imagem.Image" type="file" class="form-control" multiple="multiple" placeholder="" required>
+                    <a asp-controller="Carro" asp-action="Capture" class="nav-link">Validar</a>
+                    @*<button asp-controller="Carro" asp-action="Capture" class="w-100 btn btn-primary btn-lg">Verificar</button>*@
+                </div>
+                @*<div class="col-md-3">
+                    <label asp-for="Matricula" class="form-label"></label>
+                    <input asp-for="Matricula" class="form-control" multiple="multiple" placeholder="" required>
+                </div>*@
+
+            </div>
 
                     <hr class="my-4">
 

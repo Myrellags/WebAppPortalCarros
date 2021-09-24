@@ -58,9 +58,9 @@
                         <div class="col-md-4">
                             <div class="col-md-12 dropdown my-2">
                                 @Html.LabelFor(model => model.Morada.DistritoID, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
+                                @*<div class="col-md-10">
                                     @{
-                                        <select name="FuelId" id="FuelId" class="form-select">
+                                        <select name="DistritoId" id="DistritoId" class="form-select">
                                             @foreach (var i in ViewBag.Distritos)
                                             {
                                                 <option value=@i.Value>@i.Text</option>
@@ -68,7 +68,7 @@
                                         </select>
                                     }
                                     @Html.ValidationMessageFor(model => model.Morada.DistritoID, "", new { @class = "text-danger" })
-                                </div>
+                                </div>*@
                             </div>
                         </div>
 

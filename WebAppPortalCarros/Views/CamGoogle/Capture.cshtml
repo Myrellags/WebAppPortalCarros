@@ -1,0 +1,19 @@
+﻿@model WebAppPortalCarros.Models.FileUpload
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<div class="container">
+    <h3>
+        Mapear uma Photo
+    </h3>
+    @using (Html.BeginForm("Capture", "CamGoogle", FormMethod.Post, new { enctype = "multipart/form-data", id = "formCarroAlterar", name = "formCarroAlterar" }))
+    {
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <label asp-for="File" class="form-label"></label>
+                <input asp-for="File" type="file" class="form-control" multiple="multiple" placeholder="">
+                @*<a asp-controller="CamGoogle" asp-action="Capture" class="nav-link">Validar</a>*@
+                @*<button asp-controller="CamGoogle" asp-action="Capture" class="w-100 btn btn-primary btn-lg">Verificar</button>*@
+                <button class="w-100 btn btn-primary btn-lg" type="submit">Validar</button>
+            </div>
+        </div>
+    }
+</div>

@@ -93,7 +93,6 @@ namespace WebAppPortalCarros.Controllers
                 ms.Close();
                 ms.Dispose();
             }
-            
             carro.Matricula = model.Matricula;
            // carro.Ano = anoCarro.FirstOrDefault();
             carro.Mes = model.Mes;
@@ -275,7 +274,49 @@ namespace WebAppPortalCarros.Controllers
             }
             return View(carro);
         }
-         
+
+        public ActionResult Capture(CarroViewModel model)
+        {
+            var img = "";
+            foreach (var file in Request.Form.Files)
+            {
+                MemoryStream ms = new MemoryStream();
+                file.CopyTo(ms);
+               // img = ms.ToString();
+            }
+            
+            var imageParts = img.Split(',').ToList<string>();
+            byte[] imageBytes = Convert.FromBase64String(imageParts[1]);
+
+            using (var client = new WebClient())
+            {
+                Mainrequests Mainrequests = new Mainrequests()
+                {
+                    requests = new List<requests>()
+                    {
+                        new requests()
+                        {
+                            image = new image()
+                            {
+                                content = imageParts[1]
+                            },
+                            features = new List<features>()
+                            {
+                                new features()
+                                {
+                                    type = "LABEL_DETECTION",
+                                }
+                            }
+                        }
+                    }
+                };
+                var uri = "https://vision.googleapis.com/v1/images:annotate?key=" + "AIzaSyBhPq2NwiWUE0cUGF8c6JRG9uhXFwzUlJ4";
+                client.Headers.Add("Content-Type:application/json");
+                client.Headers.Add("Accept:application/json");
+                var response = client.UploadString(uri, JsonConvert.SerializeObject(Mainrequests));
+                return Json(data: response);
+            }
+        }
     }
 }
 

@@ -29,30 +29,69 @@ namespace WebApiCarros.Controllers
         }
 
         [HttpGet("GetDonoId/{id}")]
-        public async Task<ActionResult<Dono>> GetDonoId(int id)
+        public IActionResult GetDonoId(int id)
         {
-            var email = _context.Emails.FirstOrDefault(m => m.DonoID == id);
-            var contacto = _context.Contactos.FirstOrDefault(m => m.DonoID == id);
-            var morada = _context.Moradas.FirstOrDefault(m => m.DonoID == id);
-            var dono = await _context.Donos.FindAsync(id);
-            DonoViewModel donoViewModel = null;
+            var dono = _context.Donos.Where(d => d.DonoID == id)
+                .Include(d => d.Contactos).Include(d => d.Moradas).Include(d => d.Emails).FirstOrDefault();
+
+            DonoViewModel donoViewModel = new DonoViewModel() 
+            {
+                Dono = dono
+                //Morada = (Morada)dono.Moradas,
+                //Email = (Email)dono.Contactos,
+                //Contacto = (Contacto)dono.Contactos
+            };
             if (dono == null)
             {
                 return NotFound();
             }
-            donoViewModel = dono;
-            return dono;
+            return Ok(donoViewModel);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDono(int id, Dono dono)
+        [HttpPut("PutDono/{id}")]
+        public async Task<IActionResult> PutDono(int id, DonoViewModel dono)
         {
-            if (id != dono.DonoID)
+            if (id != dono.Dono.DonoID)
+            {
+                return BadRequest();
+            }
+            var donoId = _context.Donos.Where(d => d.DonoID == id).FirstOrDefault();
+            if (donoId != null)
+            {
+                donoId.NIF = dono.Dono.NIF;
+                donoId.Nome = dono.Dono.Nome;
+            }
+            else
+            {
+                return NotFound();
+            }
+            try
+            {
+                await _context.SaveChangesAsync(); ;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!DonoExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return NoContent();
+        }
+
+        [HttpPut("PutContacto/{id}")]
+        public async Task<IActionResult> PutContacto(int id, Contacto contacto)
+        {
+            if (id != contacto.ContactoID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(dono).State = EntityState.Modified;
+            _context.Entry(contacto).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +99,65 @@ namespace WebApiCarros.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DonoExists(id))
+                if (!ContactoExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("PutEmail/{id}")]
+        public async Task<IActionResult> PutEmail(int id, Email email)
+        {
+            if (id != email.EmailID)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(email).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!EmailExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("PutMorada/{id}")]
+        public async Task<IActionResult> PutMorada(int id, Morada morada)
+        {
+            if (id != morada.MoradaID)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(morada).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MoradaExists(id))
                 {
                     return NotFound();
                 }
@@ -167,6 +264,18 @@ namespace WebApiCarros.Controllers
         private bool DonoExists(int id)
         {
             return _context.Donos.Any(e => e.DonoID == id);
+        }
+        private bool ContactoExists(int id)
+        {
+            return _context.Contactos.Any(e => e.ContactoID == id);
+        }
+        private bool EmailExists(int id)
+        {
+            return _context.Emails.Any(e => e.EmailID == id);
+        }
+        private bool MoradaExists(int id)
+        {
+            return _context.Moradas.Any(e => e.MoradaID == id);
         }
     }
 }
