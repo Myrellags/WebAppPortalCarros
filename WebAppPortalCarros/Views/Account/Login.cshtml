@@ -1,0 +1,122 @@
+﻿@model WebAppPortalCarros.Models.Login
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+
+<h4>Login</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" /><br />
+                @*ESTE BOTÃO SEGUINTE IRÁ USAR JAVASCRIPT PARA ENVIAR OS DADOS DE LOGIN PARA O SERVIDOR:*@
+                <input type="button" value="Efetuar o Login via JavaScript" class="btn btn-primary" onclick="efetuarLogin();" /><br />
+                <input type="button" value="Criar User no Projeto Web API com JWT" class="btn btn-primary" onclick="criarUserJWT();" /><br />
+                <input type="button" value="Fazer Login Projeto Web API com JWT" class="btn btn-primary" onclick="efetuarLoginJWT();" /><br />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+<script>
+    let enderecoBase = "http://localhost:60582";
+    function criarUserJWT() {
+        let objetoAEnviarAoServidor = {
+            email: document.getElementById("Email").value,
+            password: document.getElementById("Password").value
+        };
+
+        fetch(enderecoBase + "/api/Usuarios/CreateUser",
+            {
+                "method": "post",
+                "headers":
+                {
+                    'Content-Type': 'application/json',
+                },
+                "body": JSON.stringify(objetoAEnviarAoServidor)
+            }
+        )
+            .then(resposta => resposta.json()) //Recebo o HTTP Response
+            .then(obj => console.log(obj)); //Uso o objeto enviado no body do HTTP Response
+    }
+    function efetuarLoginJWT() {
+        let objetoAEnviarAoServidor = {
+            email: document.getElementById("Email").value,
+            password: document.getElementById("Password").value
+        };
+
+        fetch(enderecoBase + "/api/Usuarios/Login",
+            {
+                "method": "post",
+                "headers":
+                {
+                    'Content-Type': 'application/json',
+                },
+                "body": JSON.stringify(objetoAEnviarAoServidor)
+            }
+        )
+            .then(resposta => resposta.json()) //Recebo o HTTP Response
+
+            //Guardar Token
+            //.then(obj => console.log(obj)); //Uso o objeto enviado no body do HTTP Response
+
+            //COMO GUARDAR O TOKEN? USAR localStorage ou sessionStorage (com sessionStorage toda a informação aí guardada desaarece logo que se fecha o browser)
+            .then(obj => {
+                //Verificar se o objeto devolvido tem uma prop "token"
+                if (obj.token != null) {
+                    sessionStorage["token"] = JSON.stringify(obj);
+                    alert("Login efetuado om sucesso!");
+                    document.location.href = "/Home/Index"; //Navego logo para a página de produtos...
+                }
+                else
+                    alert("User ou password inválidos!");
+                })
+            .catch (error => alert(error));
+    }
+
+    function efetuarLogin() {
+        
+        let objetoAEnviarAoServidor = { email: "TESTE", password: "1234" };
+
+        fetch("/Usuarios/Login",
+            {
+                "method": "post",
+                "headers":
+                {
+                    'Content-Type': 'application/json',
+                },
+                "body": JSON.stringify(objetoAEnviarAoServidor)
+            }
+        )
+            .then(resposta => resposta.json()) //Recebo o HTTP Response
+            .then(obj => console.log(obj)); //Uso o objeto enviado no body do HTTP Response
+
+    }
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    
+
+}
